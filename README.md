@@ -1,5 +1,7 @@
 # p
 
+inspired by [serokell article](https://serokell.io/blog/parser-combinators-in-haskell)
+
 ```go
 func satisfy[I, E any](p func(I) bool) Parser[I, E, I] {
     return func (i []I) Either[[]Error, Tuple2[I, []I]] {
