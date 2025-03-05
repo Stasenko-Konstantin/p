@@ -4,9 +4,9 @@ inspired by [serokell article](https://serokell.io/blog/parser-combinators-in-ha
 
 ```go
 func satisfy[I, E any](p func(I) bool) Parser[I, E, I] {
-	type FR = Either[[]Error, Tuple2[I, []I]]
 	type L = []Error
 	type R = Tuple2[I, []I]
+	type FR = Either[L, R]
 	return func(i []I) FR {
 		if len(i) == 0 {
 			return Left[L, R](&L{EndOfInput{}})
