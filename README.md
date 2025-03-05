@@ -3,21 +3,21 @@
 inspired by [serokell article](https://serokell.io/blog/parser-combinators-in-haskell)
 
 ```go
-func satisfy[I, E any](p func(I) bool) Parser[I, E, I] {
-	type L = []Error
-	type R = Tuple2[I, []I]
-	type FR = Either[L, R]
+func satisfy[I, E any](f func(I) bool) p.Parser[I, E, I] {
+	type L = []p.Error
+	type R = p.Tuple2[I, []I]
+	type FR = p.Either[L, R]
 	return func(i []I) FR {
 		if len(i) == 0 {
-			return Left[L, R](&L{EndOfInput{}})
-		} else if p(i[0]) {
-			return Right[L, R](&R{i[0], i[1:]})
+			return p.Left[L, R](&L{p.EndOfInput{}})
+		} else if f(i[0]) {
+			return p.Right[L, R](&R{i[0], i[1:]})
 		}
-		return Left[L, R](&L{Unexpected[I]{i[0]}})
+		return p.Left[L, R](&L{p.Unexpected[I]{i[0]}})
 	}
 }
 
-func char[I comparable, E any](i I) Parser[I, E, I] {
+func char[I comparable, E any](i I) p.Parser[I, E, I] {
 	return satisfy[I, E](func(i2 I) bool {
 		return i == i2
 	})
@@ -35,11 +35,11 @@ func Test(t *testing.T) {
 ////////////
 
 if err != nil {
-    return p.Left(&err)
+    return p.Left[error, int](&err)
 }
-return p.Right(&42)
+return p.Right[error, int](&42)
 
-func handle(e Either[error, int]) int {
+func handle(e p.Either[error, int]) int {
     if _, ok := e.Left(); ok {
         return 69
     } else if res, ok := e.Right(); ok {
