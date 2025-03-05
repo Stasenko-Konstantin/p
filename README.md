@@ -4,26 +4,6 @@ inspired by [serokell article](https://serokell.io/blog/parser-combinators-in-ha
 
 ```go
 func satisfy[I, E any](p func(I) bool) Parser[I, E, I] {
-    return func (i []I) Either[[]Error, Tuple2[I, []I]] {
-        if len(i) == 0 {
-            return Either[[]Error, Tuple2[I, []I]]{left: &[]Error{EndOfInput{}}}
-        } else if p(i[0]) {
-            return Either[[]Error, Tuple2[I, []I]]{right: &Tuple2[I, []I]{i[0], i[1:]}}
-        }
-        return Either[[]Error, Tuple2[I, []I]]{left: &[]Error{Unexpected[I]{i[0]}}}
-    }
-}
-
-func char[I comparable, E any](i I) Parser[I, E, I] {
-    return satisfy[I, E](func (i2 I) bool {
-        return i == i2
-    })
-}
-
-func test_char() {
-    r := char('e').RunParser("eas") // Right( Tuple2( 'e', "as" ) )
-}
-func satisfy[I, E any](p func(I) bool) Parser[I, E, I] {
 	type FR = Either[[]Error, Tuple2[I, []I]]
 	type L = []Error
 	type R = Tuple2[I, []I]
