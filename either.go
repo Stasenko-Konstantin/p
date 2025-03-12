@@ -51,9 +51,9 @@ func (e Either[L, R]) String() string {
 		side string
 	)
 	if l, ok := e.Left(); ok {
-		res, side = l, "Left"
+		res, side = *l, "Left"
 	} else if r, ok := e.Right(); ok {
-		res, side = r, "Right"
+		res, side = *r, "Right"
 	}
 	return fmt.Sprintf("%s( %v )", side, res)
 }
