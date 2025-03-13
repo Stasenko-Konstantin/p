@@ -32,4 +32,11 @@ func TestEither(t *testing.T) {
 	e2 := mkEither(nil)
 	assert.Equal(t, 42, handle(e2))
 	assert.Equal(t, "Right( 42 )", e2.String())
+
+	e3 := Either[any, any]{}
+	assert.Equal(t, "( 0 )", e3.String())
+	_, ok := e3.Left()
+	assert.False(t, ok)
+	_, ok = e3.Right()
+	assert.False(t, ok)
 }
