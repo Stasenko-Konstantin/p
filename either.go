@@ -4,19 +4,6 @@ import "fmt"
 
 /*
 Either - type from functional languages for error handling. Left often is error, Right - result
-
-	if err != nil {
-		return p.Left(&err)
-	}
-	return p.Right(&42)
-
-	func handle(e Either[error, int]) int {
-		if _, ok := e.Left(); ok {
-			return 0
-		} else if res, ok := e.Right(); ok {
-			return *res
-		}
-	}
 */
 type Either[L, R any] struct {
 	left  *L
@@ -47,7 +34,7 @@ func (e Either[_, R]) Right() (right *R, ok bool) {
 
 func (e Either[L, R]) String() string {
 	var (
-		res  any
+		res  any = 0
 		side string
 	)
 	if l, ok := e.Left(); ok {
